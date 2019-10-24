@@ -14,7 +14,7 @@ services:
     depends_on:
       - mongo
     tty: true
-    command: npm run dev
+
   mongo:
     image: mongo
     expose:
@@ -23,6 +23,7 @@ services:
       - node-devnet
     volumes:
       - mongodata:/data/db
+
   node-app:
     image: node:12
     ports:
@@ -31,7 +32,6 @@ services:
     volumes:
       - ./app:/home/app
     tty: true
-    command: npm run start
 
 networks:
   node-devnet:
