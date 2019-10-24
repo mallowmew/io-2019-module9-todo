@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+  node-api:
+    image: node:12
+    ports:
+      - 3000:3000
+      - 9229:9229
+    networks:
+      - node-devnet
+    working_dir: /home/app
+    volumes:
+      - ./api:/home/app
+    depends_on:
+      - mongo
+    tty: true
+    command: npm run dev
+  mongo:
+    image: mongo
+    expose:
+      - 27017
+    networks:
+      - node-devnet
+    volumes:
+      - mongodata:/data/db
+  node-app:
+    image: node:12
+    ports:
+      - 8080:3000
+    working_dir: /home/app
+    volumes:
+      - ./app:/home/app
+    tty: true
+    command: npm run start
+
+networks:
+  node-devnet:
+    driver: bridge
+
+volumes:
+  mongodata:
